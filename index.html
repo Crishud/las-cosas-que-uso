@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-nUVdBRAn0CrvvI0PxVDsayKwqgCOjnTojp/ZNDTE7wU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-XG6casnyz4+oDEBGqpZYotvVmoS1B7Ca9mYvxgyeC0o='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" media="(prefers-color-scheme:light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme:dark)" content="#0b0b0b">
@@ -1382,10 +1382,12 @@ function pasoVideo(){
     <p class="error" id="n-error" hidden></p>
     <button class="primario fijo-abajo" data-acc="publicarVideo">Guardar</button>`);
 }
+/* Mientras escribe no molesta: solo cuenta lo que ya parece un link completo */
+const pareceLink = x => /^(https?:\/\/|www\.|amazon\.|amzn\.|a\.co\/)/i.test(x)&&/\.[a-z]{2,}(\/|$)/i.test(x);
 function mirarLinkVideo(avisa,texto){
   const c = $('#v-link'), v = (texto??c.value).trim();
   if(!v) return;
-  const trozos = v.split(/\s+/).filter(x=>/[./]/.test(x));
+  const trozos = v.split(/\s+/).filter(pareceLink);
   const links = trozos.filter(x=>!revisarLink(x).error), malos = trozos.filter(x=>revisarLink(x).error);
   const explica = () => {
     if(!malos.length) return;
@@ -1393,7 +1395,15 @@ function mirarLinkVideo(avisa,texto){
     x.textContent = `${malos.length===1?'Un link no entró':`${malos.length} links no entraron`}. ${revisarLink(malos[0]).error}`;
     x.hidden = false;
   };
-  if(!links.length) return avisa?explica():undefined;
+  if(!links.length){
+    if(malos.length) return explica();
+    if(avisa){
+      const x = $('#n-error');
+      x.textContent = revisarLink(v).error||'Pega un link de Amazon.';
+      x.hidden = false;
+    }
+    return;
+  }
   leerVideo();
   flujo.nuevos.push(...links.map(link=>({link,nombre:nombreDelLink(link)})));
   pasoVideo();
@@ -1405,7 +1415,7 @@ function publicarVideo(){
   const b = flujo;
   const e = t => {const x=$('#n-error');x.textContent=t;x.hidden=false};
   if(!b.titulo) return e('Escribe el nombre del video.');
-  if(!b.sel.length&&!b.nuevos.length) return e('Pega al menos un link.');
+  if(!b.sel.length&&!b.nuevos.length) return e(revisarLink($('#v-link')?.value||'').error||'Pega al menos un link.');
   if(b.nuevos.some(n=>!n.nombre)) return e('A un link le falta el nombre: escríbelo.');
   if(b.nuevos.some(n=>revisarLink(n.link).pideCodigo)) return e('Falta tu código de afiliada. Escríbelo tocando tu logo.');
   recordar();

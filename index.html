@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-ymoQsvmURdzTBAw75DTB0dY4pELuXZUUgFlRAQyM6ys='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-hJ43ks0Xw0nsCdrDn9CGjE0wi4cz4TWcStr2osXVQFI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" media="(prefers-color-scheme:light)" content="#ffffff">
-<meta name="theme-color" media="(prefers-color-scheme:dark)" content="#0b0b0b">
+<meta name="theme-color" content="#0b0b0b">
 <link rel="manifest" href="app.webmanifest">
 <link rel="icon" type="image/png" href="fotos/app-192.png">
+<link rel="preload" as="image" href="fotos/ella.webp">
 <link rel="apple-touch-icon" href="fotos/app-180.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=Marcellus&display=swap" id="fuente">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" id="fuente">
 <style>
 /* Colores de cris: blanco de fondo, negro en letras, dorado en detalles, verde en lo más chico.
    El dorado nunca va como texto sobre blanco: no se leería. */
@@ -67,7 +67,7 @@ h1,h2,h3,p{margin:0}
 .modo-editar{position:sticky;top:0;z-index:25;display:flex;align-items:center;justify-content:space-between;gap:var(--e3);min-height:52px;padding:0 var(--margen);background:var(--verde);color:#fff;font-size:15px}
 .modo-editar b{font-weight:600}
 .modo-editar button{min-height:44px;color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:3px}
-.demo{padding:calc(7px + env(safe-area-inset-top)) 16px 7px;background:var(--verde);color:#fff;font:400 15px/1.3 Marcellus,var(--letra);letter-spacing:.015em;text-align:center}
+.demo{padding:7px 16px;background:var(--verde);color:#fff;font-size:13px;font-weight:500;letter-spacing:-.01em;text-align:center}
 .pagina{max-width:600px;margin:0 auto;padding-block:0 calc(var(--e9) + env(safe-area-inset-bottom));padding-left:max(var(--margen),env(safe-area-inset-left,0px));padding-right:max(var(--margen),env(safe-area-inset-right,0px))}
 .barra{display:flex;align-items:center;justify-content:space-between;height:var(--alto-barra)}
 .logo{position:relative;flex:none;display:grid;place-items:center;width:var(--logo);height:var(--logo);overflow:hidden;border-radius:calc(var(--logo)*.27);background:var(--tinta);color:var(--oro);font-size:calc(var(--logo)*.5);font-weight:600}
@@ -302,10 +302,9 @@ h1,h2,h3,p{margin:0}
 .elige span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:inset 0 0 0 1.5px var(--tinta);color:transparent;font-size:14px;font-weight:600;transition:background .15s,transform .25s var(--muelle)}
 .elige input:checked+span{background:var(--tinta);color:var(--oro);transform:scale(1.08)}
 .elige input:focus-visible+span{outline:2px solid var(--verde);outline-offset:2px}
-.kit-carro[hidden]{display:none}
-.kit-carro{position:fixed;left:50%;translate:-50% 0;bottom:calc(var(--e3) + env(safe-area-inset-bottom));z-index:15;display:flex;align-items:center;gap:var(--e2);width:max-content;min-height:46px;padding:0 var(--e4);border-radius:23px;background:var(--tinta);color:#fff;font-size:15px;font-weight:500;box-shadow:0 6px 18px rgba(0,0,0,.16)}
+.kit-carro{position:fixed;left:var(--margen);right:var(--margen);bottom:calc(var(--e3) + env(safe-area-inset-bottom));z-index:15;display:flex;align-items:center;justify-content:center;gap:var(--e2);min-height:56px;padding:0 var(--e5);border-radius:28px;background:var(--tinta);color:#fff;font-size:17px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .kit-carro:active{transform:scale(.98)}
-.kit-carro svg{width:18px;height:18px;color:var(--oro)}
+.kit-carro svg{width:22px;height:22px;color:var(--oro)}
 .kit-carro small{font-size:12px;font-weight:400;color:var(--oro)}
 body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom))}
 @media (min-width:1024px){
@@ -316,7 +315,7 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
   .kit-rejilla{grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--e5) var(--e4)}
   .kit-grupo.grande .kit-rejilla{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--e5)}
   .kit-pieza b{font-size:15px}
-  .kit-carro{bottom:var(--e5)}
+  .kit-carro{left:calc(50% - 170px);right:auto;bottom:var(--e5);width:340px}
 }
 
 /* Final de la página: la mariposa vuela y aparece el logo */
@@ -328,14 +327,6 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
 .cierre-legal p+p{margin-top:var(--e1)}
 .cierre-mariposa{position:absolute;left:0;top:0;width:var(--mar);transform-origin:0 0;pointer-events:none}
 .polvo{position:absolute;left:0;top:0;width:4px;height:4px;border-radius:50%;background:var(--oro);opacity:0;pointer-events:none}
-
-/* Antes de la entrada: del blanco del navegador al negro, sin corte. Sin JavaScript se quita sola */
-.antes{position:fixed;inset:0;z-index:200;background:#fff;animation:antes-sale .3s 7s forwards}
-.antes::after{content:"";position:absolute;inset:0;background:var(--tinta);animation:antes-entra .45s ease-out both}
-@keyframes antes-entra{from{opacity:0}}
-@keyframes antes-sale{to{opacity:0;visibility:hidden}}
-@media (prefers-color-scheme:dark),(display-mode:standalone){html,.antes{background:var(--tinta)}}
-@media (prefers-reduced-motion:reduce){.antes{display:none}}
 
 /* Entrada: una sola toma */
 .intro.armando .i-letras,.intro.armando .i-iris,.intro.armando .i-logo,.intro.armando .i-aro{visibility:hidden}
@@ -351,7 +342,7 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
 .i-aro circle{fill:none;stroke:var(--oro);stroke-width:1;stroke-dasharray:1 2;transform-box:fill-box;transform-origin:center;transform:rotate(-90deg)}
 .i-logo{position:absolute;transform-origin:0 0}
 .i-logo>img{position:absolute;inset:0;width:100%;height:100%}
-.i-logo .gnb{-webkit-mask-image:conic-gradient(from 200deg at 48% 52%,#000 var(--barre),transparent 0);mask-image:conic-gradient(from 200deg at 48% 52%,#000 var(--barre),transparent 0)}
+.i-logo .pieza{-webkit-mask-image:conic-gradient(from 200deg at 48% 52%,#000 var(--barre),transparent 0);mask-image:conic-gradient(from 200deg at 48% 52%,#000 var(--barre),transparent 0)}
 @keyframes subir{from{opacity:.2;transform:translateY(32px)}}
 @supports (animation-timeline:view()){.rev{animation:subir linear both;animation-timeline:view();animation-range:entry 0% entry 30%}}
 
@@ -361,6 +352,7 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
 /* PC: otra composición, no el teléfono estirado */
 @media (min-width:1024px){
   .pagina{max-width:1440px}
+  .demo{font-size:13px}
   body::before{background-size:100% auto;opacity:.42}
   .portada{gap:var(--e3)}
   .sec-cab{margin-bottom:var(--e6)}
@@ -403,7 +395,6 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
 </style>
 </head>
 <body>
-<div class="antes" id="antes" aria-hidden="true"></div>
 <div id="app"></div>
 <div class="velo" id="velo" data-acc="cerrarHoja"></div>
 <section class="hoja" id="hoja" role="dialog" aria-modal="true" aria-label="Editar"><div class="asa-hoja" id="asa-hoja"><i></i></div><div class="hoja-cuerpo" id="hoja-cuerpo"></div></section>
@@ -411,18 +402,10 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
 
 <script>
 document.getElementById('fuente').rel = 'stylesheet';
-const CLAVE = 'todos-cosas-v1';
+const CLAVE = 'mis-cosas-v18';
 const FOTOS = {};
 const foto = n => `fotos/${n}.webp`;
 const AVISO = 'As an Amazon Associate I earn from qualifying purchases.';
-const TIENDA = /^(www\.|smile\.|m\.)?amazon\.com$/i;
-const OTRO_PAIS = /^(www\.|m\.)?amazon\.(ca|com\.mx|com\.br|co\.uk|es|de|fr|it|co\.jp|com\.au|in|nl|pl|se|sg|ae|sa|eg|com\.be|com\.tr)$/i;
-const CORTO = /^(amzn\.to|amzn\.eu|amzn\.asia|a\.co)$/i;
-/* Códigos de la tienda de EE. UU.: si su cuenta es de otro país hay que cambiar esto y TIENDA */
-const CODIGO = /^[a-z0-9][a-z0-9-]*-20$/i;
-const asinDe = v => (String(v).match(/\/(?:dp|gp\/product|gp\/aw\/d)\/([A-Z0-9]{10})(?=[/?#]|$)/i)||[])[1]?.toUpperCase()||'';
-/* Link normal de Amazon: el teléfono lo abre en la app si la tiene. Nada de trucos, para que la compra cuente */
-const DESTINO = matchMedia('(pointer:coarse)').matches?'_self':'_blank';
 const ICONO = {
   compartir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M8 7.5 12 3.5 16 7.5M6 11H5v9h14v-9h-1"/></svg>',
   atras:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
@@ -440,48 +423,43 @@ const DISENOS = {
 };
 
 function ejemplo(){
-  /* Demo sin fotos: cada tarjeta espera la foto de ella y se cambia con un toque */
-  const p = nombre=>({nombre,foto:'',fotos:[],link:'',ejemplo:true});
-  const k = (nombre,grupo,esencial=false)=>({...p(nombre),grupo,esencial});
+  const p = (nombre,...archivos)=>({nombre,foto:foto(archivos[0]),fotos:archivos.map(foto),link:'',ejemplo:true});
+  const k = (nombre,archivo,grupo,esencial=false)=>({...p(nombre,archivo),grupo,esencial});
   return {
     marca:{nombre:'Tu nombre',letra:'M',logo:'',logoEntrada:'',foto:'',gancho:'Las cosas que uso',barra:'Todo lo que me preguntan está aquí.',boton:{texto:'Reservar',link:'',activo:false}},
     productos:{
-      p1:k('Producto 1','Básicos',true),p2:k('Producto 2','Extras'),p3:k('Producto 3','Básicos',true),
-      p4:p('Producto 4'),p5:p('Producto 5'),p6:p('Producto 6'),p7:p('Producto 7'),p8:p('Producto 8'),
-      k2:k('Producto 9','Básicos',true),k4:k('Producto 10','Extras')
+      p1:k('Kit de uñas de gel','kit-unas','Color',true),p2:k('Esmaltes rosa','esmaltes','Color'),
+      p3:{...p('Lámpara para uñas','lampara-2','lampara-uv'),grupo:'Secar',esencial:true},
+      p4:p('Secador negro','secador'),p5:p('Champú','champu'),p6:p('Blazer camel','blazer'),
+      p7:p('Tenis blancos','tenis-2','tenis'),p8:p('Silla plegable','silla'),
+      k1:k('Base y top coat','k-base','Secar',true),k2:k('Limas y pulidores','k-limas','Preparar',true),
+      k3:k('Empujador de cutícula','k-cuticula','Preparar'),k4:k('Aceite de cutícula','k-aceite','Cuidar'),
+      k5:k('Torno para uñas','k-torno','Preparar'),k6:k('Esmaltes de gel','k-gel','Color'),
+      k7:k('Uñas postizas','k-tips','Color'),k8:k('Pinceles finos','k-pinceles','Color'),
+      k9:k('Toallitas sin pelusa','k-algodon','Preparar'),k10:k('Removedor','k-removedor','Cuidar'),
+      k11:k('Polvo acrílico','k-polvo','Color'),k12:k('Cojín para el brazo','k-cojin','Cuidar')
     },
     categorias:{
-      kit:{titulo:'Mi kit',foto:'',vista:'kit',productos:['k2','p1','p3','p2','k4']},
-      favoritos:{titulo:'Mis favoritos',foto:'',vista:'cuadricula',productos:['p4','p5']},
-      ropa:{titulo:'Ropa',foto:'',vista:'grande',productos:['p6','p7']},
-      video:{titulo:'Nombre del video',foto:'',vista:'cuadricula',productos:['p8','p5'],inteligente:true,portadaVideos:'',
-        anteriores:[{titulo:'Video anterior',foto:'',productos:['p1','p3']}]}
+      unas:{titulo:'Kit de uñas',foto:foto('kit-unas'),vista:'kit',productos:['k2','k3','k5','k9','p1','k6','p2','k7','k8','k11','p3','k1','k4','k10','k12']},
+      salon:{titulo:'Cuidado del pelo',foto:foto('secador'),vista:'cuadricula',productos:['p4','p5']},
+      ropa:{titulo:'Ropa',foto:foto('blazer'),vista:'grande',productos:['p6','p7']},
+      video:{titulo:'Silla rápida',foto:foto('silla'),vista:'cuadricula',productos:['p8','p5'],inteligente:true,portadaVideos:foto('esmaltes'),
+        anteriores:[
+          {titulo:'Mi mesa de trabajo',foto:foto('kit-unas'),productos:['p1','p3']},
+          {titulo:'Rutina de mañana',foto:foto('champu'),productos:['p5','p2']},
+          {titulo:'Lo que me pongo',foto:foto('tenis'),productos:['p6','p7']}
+        ]}
     },
     secciones:[
-      {id:'colecciones',titulo:'Colecciones',vista:'carrusel',piezas:[{t:'cat',id:'kit'},{t:'cat',id:'favoritos'},{t:'cat',id:'ropa'}]},
+      {id:'colecciones',titulo:'Colecciones',vista:'carrusel',piezas:[{t:'cat',id:'unas'},{t:'cat',id:'salon'},{t:'cat',id:'ropa'}]},
       {id:'destacados',titulo:'Destacados',vista:'cuadricula',piezas:[{t:'cat',id:'video'},{t:'prod',id:'p7'},{t:'prod',id:'p3'},{t:'videos',id:'video'}]}
     ]
   };
 }
-/* Lo guardado pasa por la misma regla: un link solo vale con producto de amazon.com y su código */
-function sanear(d){
-  const t = CODIGO.test(d.marca.tag||'')?d.marca.tag:'';
-  d.marca.tag = t;
-  Object.values(d.productos).forEach(p=>{
-    if(!p.link) return;
-    let a = '';
-    try{
-      const u = new URL(p.link);
-      if(u.protocol==='https:'&&TIENDA.test(u.hostname)) a = asinDe(u.pathname);
-    }catch(e){}
-    p.link = a&&t?`https://www.amazon.com/dp/${a}?tag=${t}`:'';
-  });
-  return d;
-}
 function cargar(){
   try{
     const d = JSON.parse(localStorage.getItem(CLAVE),(k,v)=>typeof v==='string'&&v.startsWith('foto:')?foto(v.slice(5)):v);
-    if(d&&d.marca) return sanear(d);
+    if(d&&d.marca) return d;
   }catch(e){}
   return ejemplo();
 }
@@ -536,10 +514,10 @@ function lineas(t){
 function cierreHtml(){
   const m = datos.marca;
   if(!m.logoEntrada||editando) return pieHtml();
-  return `<footer class="cierre" id="cierre"><div class="cierre-logo"><img src="${esc(m.logoEntrada)}" alt="${esc(m.nombre)}" loading="lazy"></div><div class="cierre-legal"><p>${AVISO}</p><p>Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>${CONFIG.demo?'<p>Demo: productos de ejemplo.</p>':''}</div></footer>`;
+  return `<footer class="cierre" id="cierre"><div class="cierre-logo"><img src="${esc(m.logoEntrada)}" alt="${esc(m.nombre)}" loading="lazy"></div><div class="cierre-legal"><p>${AVISO}</p><p>Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>${CONFIG.demo?'<p>Demo: fotos simuladas.</p>':''}</div></footer>`;
 }
 function pieHtml(){
-  return `<footer class="pie"><p>${AVISO}</p><p>Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>${CONFIG.demo?'<p>Demo: productos de ejemplo.</p>':''}</footer>`;
+  return `<footer class="pie"><p>${AVISO}</p><p>Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>${CONFIG.demo?'<p>Demo: fotos simuladas.</p>':''}</footer>`;
 }
 /* La etiqueta Nuevo se quita sola a los 7 días */
 const esNuevo = p => p.creado&&Date.now()-p.creado<6048e5;
@@ -564,9 +542,9 @@ function caja(html,obj){
 function piezaProducto(pid){
   const p = datos.productos[pid];
   if(!p) return '';
-  const dentro = `${marcoProducto(p)}${editando&&!p.link&&!p.ejemplo?'<span class="marca">Falta link</span>':esNuevo(p)?'<span class="marca">Nuevo</span>':''}<b>${esc(p.nombre)}</b><span class="sub">#ad</span>`;
+  const dentro = `${marcoProducto(p)}${esNuevo(p)?'<span class="marca">Nuevo</span>':''}<b>${esc(p.nombre)}</b><span class="sub">#ad</span>`;
   if(p.ejemplo||!p.link) return caja(`<div class="pieza" role="button" tabindex="0" data-pieza data-acc="simulado" data-prod="${esc(pid)}">${dentro}</div>`,`p:${pid}`);
-  return caja(`<a class="pieza" draggable="false" data-pieza data-prod="${esc(pid)}" href="${esc(p.link)}" target="${DESTINO}" rel="sponsored nofollow noopener">${dentro}</a>`,`p:${pid}`);
+  return caja(`<a class="pieza" draggable="false" data-pieza data-prod="${esc(pid)}" href="${esc(p.link)}" target="_blank" rel="sponsored nofollow noopener">${dentro}</a>`,`p:${pid}`);
 }
 function piezaHtml(pz,s,i){
   const attr = `data-pieza data-sec="${esc(s.id)}" data-i="${i}"`;
@@ -579,8 +557,8 @@ function piezaHtml(pz,s,i){
   const nombre = c.inteligente?'Último video':c.titulo;
   return caja(`<a class="pieza" ${attr} href="#c/${encodeURIComponent(pz.id)}"><span class="marco">${imagen(c.foto,nombre)}</span><b>${esc(nombre)}</b></a>`,`c:${pz.id}`);
 }
-/* La gente no lo ve. Solo sale en los aparatos que ya entraron con el link privado */
-const veEditar = () => !editando&&soyDuena();
+/* La gente no lo ve. En esta demo sale siempre para poder encontrarlo */
+const veEditar = () => !editando&&(soyDuena()||CONFIG.demo);
 function seccionHtml(s,i){
   const piezas = s.piezas.map((p,i)=>piezaHtml(p,s,i)).join('');
   const nombre = editando?`style="view-transition-name:s-${esc(s.id)}"`:'';
@@ -618,17 +596,14 @@ function eligeHtml(k,nombre){
 function tocaProducto(k,p,clase,dentro){
   if(editando) return `<button class="${clase}" data-acc="editarProducto" data-arg="${esc(k)}">${dentro}</button>`;
   if(p.ejemplo||!p.link) return `<button class="${clase}" data-acc="simulado">${dentro}</button>`;
-  return `<a class="${clase}" href="${esc(p.link)}" target="${DESTINO}" rel="sponsored nofollow noopener">${dentro}</a>`;
+  return `<a class="${clase}" href="${esc(p.link)}" target="_blank" rel="sponsored nofollow noopener">${dentro}</a>`;
 }
 function piezaKit(k){
   const p = datos.productos[k];
   return `<article class="kit-pieza" data-grupo="${esc(grupoDe(p))}" data-busca="${esc(p.nombre.toLowerCase())}">${tocaProducto(k,p,'kit-toca',`<span class="marco">${imagen(fotosDe(p)[0],p.nombre)}</span><b>${esc(p.nombre)}</b><small>#ad</small>`)}${editando?'':eligeHtml(k,p.nombre)}</article>`;
 }
-/* Si no eligió nada, el botón manda todo lo que puede entrar al carrito y dice cuántos son */
-function textoCarro(){
-  const n = idsCarro().length||(CONFIG.demo?kitSel.size:0), total = datos.categorias[ruta().a]?.productos.length||0;
-  return `${ICONO.carro}<span>${n&&n!==total?`${n} al carrito`:'Al carrito'}</span><small>#ad</small>`;
-}
+/* Si no eligió nada, el botón manda todo */
+const textoCarro = () => `${ICONO.carro}<span>${kitSel.size?`${kitSel.size} al carrito`:'Todo al carrito'}</span><small>Amazon · #ad</small>`;
 function kitHtml(cid){
   const c = datos.categorias[cid], ids = c.productos.filter(k=>datos.productos[k]);
   const esenciales = ids.filter(k=>datos.productos[k].esencial), resto = ids.filter(k=>!datos.productos[k].esencial);
@@ -645,7 +620,7 @@ function kitHtml(cid){
         ${editando?`<button class="agregar-pieza" data-acc="agregarACategoria" data-arg="${esc(cid)}">${ICONO.mas}Agregar</button>`:''}
         ${pieHtml()}
       </div>
-    </div>${editando?'':`<a class="kit-carro" id="kit-carro" data-acc="kitCarrito" target="${DESTINO}" rel="sponsored nofollow noopener">${textoCarro()}</a>`}`;
+    </div>${editando?'':`<a class="kit-carro" id="kit-carro" data-acc="kitCarrito" target="_blank" rel="sponsored nofollow noopener">${textoCarro()}</a>`}`;
 }
 function filtrarKit(){
   const q = kitTexto.trim().toLowerCase();
@@ -666,7 +641,6 @@ function filtrarKit(){
   document.querySelectorAll('.kit-chips button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.arg||'')===kitGrupo));
 }
 function idsCarro(){
-  if(!datos.marca.tag) return [];
   const ids = kitSel.size?[...kitSel]:(datos.categorias[ruta().a]?.productos||[]);
   return ids.filter(k=>asinDe(datos.productos[k]?.link||''));
 }
@@ -677,11 +651,10 @@ function marcarKit(){
   b.innerHTML = textoCarro();
   const ids = idsCarro();
   ids.length?b.setAttribute('href',linkCarrito(ids)):b.removeAttribute('href');
-  b.hidden = !ids.length&&!CONFIG.demo;
 }
 function linkCarrito(ids){
   const u = new URL('https://www.amazon.com/gp/aws/cart/add.html');
-  u.searchParams.set('AssociateTag',datos.marca.tag);
+  if(datos.marca.tag) u.searchParams.set('AssociateTag',datos.marca.tag);
   ids.forEach((k,i)=>{
     u.searchParams.set(`ASIN.${i+1}`,asinDe(datos.productos[k].link));
     u.searchParams.set(`Quantity.${i+1}`,'1');
@@ -704,10 +677,9 @@ function vistaActual(){
   if(r.t==='a'&&c&&c.anteriores[r.b]){const v=c.anteriores[r.b];return categoriaHtml({titulo:v.titulo,foto:v.foto,productos:v.productos,vista:'cuadricula',atras:`#v/${encodeURIComponent(r.a)}`,etiqueta:'Video anterior'})}
   return inicioHtml();
 }
-/* Entrar a editar: con el link privado y la clave. El aparato queda recordado.
-   En la página solo está la huella del link, no el link. Esto solo protege la demo.
-   Al publicar, el servidor debe comprobar quién guarda. */
-const LLAVE = 'todos-clave', DENTRO = 'todos-dentro';
+/* Entrar a editar: mantener pulsado el logo y escribir la clave. El aparato queda recordado.
+   Esto solo protege la demo. Al publicar, el servidor debe comprobar quién guarda. */
+const LLAVE = 'mis-cosas-clave', DENTRO = 'mis-cosas-dentro';
 const leer = k => {try{return localStorage.getItem(k)}catch(e){return null}};
 const escribir = (k,v) => {try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
 const soyDuena = () => leer(DENTRO)==='1';
@@ -716,7 +688,6 @@ async function resumen(t){
   return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
 }
 function pedirClave(){
-  return;
   const nueva = !leer(LLAVE);
   flujo = {tipo:'clave'};
   hoja(`<h3>${nueva?'Crea tu clave':'Tu clave'}</h3><div class="campo"><label for="k-clave">Clave</label><input id="k-clave" type="password" autocomplete="${nueva?'new-password':'current-password'}"></div><p class="error" id="n-error" hidden></p><button class="primario" data-acc="entrarClave">Entrar</button>`);
@@ -726,25 +697,6 @@ function dock(){
   if(!editando) return '';
   return `<div class="dock"><button data-acc="agregarLink">Agregar link</button><button data-acc="hojaVideo">Actualizar video</button></div>`;
 }
-/* La franja del reloj del teléfono: negra en la entrada, verde junto a la barra y transparente al bajar.
-   Safari 26 ignora theme-color y toma el color del fondo del documento. Nada fijo arriba: Safari lo dejaría pegado al bajar */
-let enEntrada = false;
-function colorArriba(c){
-  document.querySelectorAll('meta[name=theme-color]').forEach(m=>{m.content = c});
-  document.documentElement.style.backgroundColor = c;
-}
-function mirarArriba(){
-  if(enEntrada) return;
-  const barra = $('.demo');
-  colorArriba($('.modo-editar')||barra&&scrollY<barra.offsetHeight?'#183d32':'#ffffff');
-}
-window.addEventListener('scroll',mirarArriba,{passive:true});
-/* Si otra pestaña cambió algo, esta no lo pisa al guardar */
-window.addEventListener('storage',e=>{
-  if(e.key!==CLAVE) return;
-  datos = cargar();
-  pintar();
-});
 function pintar(){
   cortarEntrada?.();
   const r = ruta();
@@ -756,7 +708,6 @@ function pintar(){
   filtrarKit();
   marcarKit();
   prepararCierre();
-  mirarArriba();
 }
 
 /* Movimiento */
@@ -858,10 +809,7 @@ async function animarCierre(c){
   logo.animate([{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 100% 0 0)',offset:VUELO_MS/total-.002},{clipPath:'inset(0 93.2% 0 0)',offset:VUELO_MS/total-.001},{clipPath:'inset(0 -4% 0 0)',easing:SUAVE}],{duration:total,fill:'backwards'}).onfinish = () => c.classList.remove('espera');
 }
 async function entrada(){
-  const antes = $('#antes');
-  if(editando||quieto()||location.hash||document.hidden||!document.body.animate) return antes.remove();
-  enEntrada = true;
-  colorArriba('#0b0b0b');
+  if(editando||quieto()||location.hash||document.hidden||!document.body.animate) return;
   if('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo({top:0,behavior:'instant'});
   const m = datos.marca, propio = m.logo===foto('logo');
@@ -874,18 +822,12 @@ async function entrada(){
       <div class="i-iris">${img(m.foto)}</div>
     </div>
     <svg class="i-aro" aria-hidden="true"></svg>
-    <div class="i-logo">${propio?`<img class="gnb" src="${foto('logo-gnb')}" alt=""><img class="f" src="${foto('logo-f')}" alt="">${estrellas}`:logo()}</div>`;
+    <div class="i-logo">${propio?`<img class="pieza" src="${foto('logo-a')}" alt=""><img class="f" src="${foto('logo-b')}" alt="">${estrellas}`:logo()}</div>`;
   document.body.appendChild(capa);
   const en = s => capa.querySelector(s);
   const imagenes = [...capa.querySelectorAll('img'),...document.querySelectorAll('.foto-ella img,.barra .logo img')];
   const listas = await Promise.race([Promise.all(imagenes.map(i=>i.decode().then(()=>true,()=>false))).then(l=>l.every(Boolean)),new Promise(r=>setTimeout(()=>r(false),2600))]);
-  if(!listas){
-    capa.remove();
-    enEntrada = false;
-    mirarArriba();
-    antes.animate([{opacity:1},{opacity:0}],{duration:320,fill:'forwards'}).onfinish = () => antes.remove();
-    return;
-  }
+  if(!listas) return capa.remove();
 
   window.scrollTo({top:0,behavior:'instant'});
   const W = document.documentElement.clientWidth, H = innerHeight;
@@ -905,8 +847,6 @@ async function entrada(){
   if(fo) pone(en('.i-iris'),fo);
   pone(en('.i-logo'),{left:x,top:y,width:L,height:L});
   capa.style.setProperty('--logo',L+'px');
-  await Promise.race([Promise.all(antes.getAnimations({subtree:true}).filter(a=>a.animationName==='antes-entra').map(a=>a.finished)),new Promise(r=>setTimeout(r,700))]);
-  antes.remove();
   capa.classList.remove('armando');
   if(fo) en('.i-aro').innerHTML = `<circle cx="${cx}" cy="${cy}" r="${r+2.5}" pathLength="1"/>`;
 
@@ -915,10 +855,10 @@ async function entrada(){
   const va = (el,cuadros,ini,dura,curva=SUAVE,mas={}) => {if(el) anims.push(el.animate(cuadros,{delay:ini,duration:dura,easing:curva,fill:'both',...mas}))};
   const sube = [{transform:'translateY(110%)'},{transform:'none'}];
 
-  /* El icono se arma: baja la F, gira la G-N-B y saltan las estrellas */
+  /* El icono se arma: bajan las piezas y saltan las estrellas */
   if(propio){
     va(en('.f'),[{clipPath:'inset(0 0 100% 0)'},{clipPath:'inset(0 0 0% 0)'}],60,560,FIRME);
-    va(en('.gnb'),[{'--barre':'0deg'},{'--barre':'360deg'}],160,680,FIRME);
+    va(en('.pieza'),[{'--barre':'0deg'},{'--barre':'360deg'}],160,680,FIRME);
     capa.querySelectorAll('.b').forEach((b,i)=>va(b,[{transform:'scale(0) rotate(-70deg)'},{transform:'none'}],700+i*80,380,RESORTE));
   }else va(en('.i-logo'),[{clipPath:'inset(0 0 100% 0)'},{clipPath:'inset(0 0 0% 0)'}],60,700,FIRME);
   va(en('.i-letras>*'),sube,560,680);
@@ -963,15 +903,12 @@ async function entrada(){
     cortarEntrada = null;
     anims.forEach(a=>a.cancel());
     capa.remove();
-    enEntrada = false;
-    mirarArriba();
   };
   cortarEntrada = fin;
   const quieta = e => e.preventDefault();
   capa.addEventListener('touchmove',quieta,{passive:false});
   capa.addEventListener('wheel',quieta,{passive:false});
   let espera = setTimeout(fin,T);
-  setTimeout(()=>{enEntrada = false;mirarArriba()},CIERRA);
   setTimeout(()=>{capa.style.pointerEvents='none'},LLEGA);
   /* Quien no quiera esperar la adelanta con un toque */
   capa.addEventListener('click',()=>{
@@ -1025,7 +962,7 @@ function refrescar(){guardar();transicion(pintar)}
 /* Fotos automáticas de Amazon: apagadas. Amazon pide 10 ventas en 30 días, y la API tiene que ser de la cuenta de ella.
    Cuando tenga su servidor, su dirección va en apiFotos y se enciende sola. Esa dirección recibe ?link= y responde
    {nombre,fotos:[...]}. Amazon no deja guardar sus imágenes ni recortarlas: solo sus direcciones hasta 24 horas. */
-const CONFIG = {apiFotos:'',demo:true,entrar:''};
+const CONFIG = {apiFotos:'',demo:true};
 const MAX_FOTOS = 8;
 const pedirAmazon = async link => {
   const r = await fetch(`${CONFIG.apiFotos}?link=${encodeURIComponent(link)}`);
@@ -1059,30 +996,33 @@ async function refrescarAmazon(){
 }
 
 /* Links: ella pega y lo demás sale solo */
-/* Acepta el link como llegue: sin https, con http o dentro de un texto */
-function sacarLink(v){
-  const t = (String(v).match(/(?<![\w.-])(?:https?:\/\/|www\.|amazon\.com\/|amzn\.|a\.co\/)\S+/i)?.[0]||String(v).trim()).replace(/[.,;)]+$/,'');
-  return /^https?:\/\//i.test(t)?t.replace(/^http:/i,'https:'):/^[a-z]+:/i.test(t)?t:`https://${t}`;
-}
+const TIENDA = /^(www\.|smile\.)?amazon\.(com|ca|com\.mx|com\.br|co\.uk|es|de|fr|it|co\.jp|com\.au|in|nl|pl|se|sg|ae|sa|eg|com\.be|com\.tr)$/i;
+const CORTO = /^(amzn\.to|amzn\.eu|amzn\.asia|a\.co)$/i;
 function revisarLink(v){
-  if(!String(v).trim()) return {error:'Pega el link de Amazon.'};
+  v = v.trim();
+  if(!v) return {error:'Pega el link de Amazon.'};
   let u;
-  try{u = new URL(sacarLink(v))}catch(e){u = null}
-  if(u&&CORTO.test(u.hostname)) return {error:'Ese link corto no deja saber qué producto es. Abre el producto en el navegador, en amazon.com, y copia la dirección.'};
-  if(u&&OTRO_PAIS.test(u.hostname)) return {error:'Ese link es de Amazon de otro país. Abre el producto en amazon.com y copia la dirección.'};
-  if(!u||u.protocol!=='https:'||!TIENDA.test(u.hostname)) return {error:'Ese link no es de Amazon.'};
-  if(!asinDe(u.pathname)) return {error:'Ese link no es de un producto. Abre el producto y copia su dirección.'};
-  if(!datos.marca.tag) return {aviso:'Escribe tu código de afiliada una vez y lo pongo solo en todos tus links.',pideCodigo:true};
+  try{u = new URL(v)}catch(e){u = null}
+  const tienda = u&&TIENDA.test(u.hostname);
+  if(!u||u.protocol!=='https:'||!(tienda||CORTO.test(u.hostname))) return {error:'Ese link no es de Amazon.'};
+  if(/^a\.co$/i.test(u.hostname)) return {aviso:'Este link corto puede no llevar tu código de afiliada. Mejor cópialo desde la barra de afiliados de Amazon.'};
+  if(tienda&&!u.searchParams.get('tag')&&!datos.marca.tag) return {aviso:'Escribe tu código de afiliada una vez y lo pongo solo en todos tus links.',pideCodigo:true};
   return {};
 }
-/* Todo link sale igual: amazon.com, el producto y su código. Lo demás se descarta, también el código de otra persona.
-   El código nunca se aprende de un link: lo escribe ella */
-const linkPropio = asin => `https://www.amazon.com/dp/${asin}?tag=${encodeURIComponent(datos.marca.tag)}`;
+const asinDe = v => (String(v).match(/\/(?:dp|gp\/product|gp\/aw\/d)\/([A-Z0-9]{10})(?=[/?#]|$)/i)||[])[1]?.toUpperCase()||'';
+/* Deja el link corto y limpio, con su código. Si el link ya trae código, lo aprende */
 function limpiarLink(v){
+  v = v.trim();
   try{
-    const a = asinDe(new URL(sacarLink(v)).pathname);
-    return a&&datos.marca.tag?linkPropio(a):'';
-  }catch(e){return ''}
+    const u = new URL(v);
+    if(!TIENDA.test(u.hostname)) return v;
+    const t = u.searchParams.get('tag');
+    if(t) datos.marca.tag = t;
+    const tag = t||datos.marca.tag, a = asinDe(u.pathname);
+    const limpio = new URL(a?`https://${u.hostname}/dp/${a}`:u.href);
+    if(tag) limpio.searchParams.set('tag',tag);
+    return limpio.href;
+  }catch(e){return v}
 }
 const yaEsta = link => {
   const a = asinDe(link);
@@ -1092,7 +1032,7 @@ function ponerEn(d,pid){
   const [t,k] = d.split(':');
   const c = t==='c'&&datos.categorias[k];
   if(c){
-    if(!c.productos.includes(pid)) c.productos.push(pid);
+    c.productos.push(pid);
     if(!c.foto) c.foto = datos.productos[pid].foto;
     return;
   }
@@ -1100,8 +1040,6 @@ function ponerEn(d,pid){
 }
 /* Copiar en Amazon, tocar Agregar link y ya */
 function guardarRapido(link){
-  const r = revisarLink(link);
-  if(r.error||r.pideCodigo) return avisar(r.error||r.aviso);
   if(yaEsta(link)) return avisar('Ese producto ya está en tu página.');
   recordar();
   const pid = id(), nombre = nombreDelLink(link);
@@ -1112,7 +1050,7 @@ function guardarRapido(link){
 }
 function nombreDelLink(v){
   try{
-    const p = new URL(sacarLink(v)).pathname.split('/').filter(Boolean);
+    const p = new URL(v.trim()).pathname.split('/').filter(Boolean);
     const i = p.findIndex(x=>x==='dp'||x==='gp');
     const t = i>0?p[i-1]:'';
     if(!t) return '';
@@ -1195,8 +1133,8 @@ function mirarLink(){
   if(!c) return;
   const r = c.value.trim()?revisarLink(c.value):{};
   const a = $('#p-aviso');
-  a.hidden = !(r.error||r.aviso);
-  a.textContent = r.error||r.aviso||'';
+  a.hidden = !r.aviso;
+  a.textContent = r.aviso||'';
   const pc = $('#p-codigo');
   if(pc) pc.hidden = !r.pideCodigo;
   const n = $('#p-nombre');
@@ -1212,7 +1150,7 @@ function leerProducto(){
   flujo.nombre = $('#p-nombre').value.trim();
   if($('#p-destino')) ultimoDestino = $('#p-destino').value;
   const t = $('#p-tag')?.value.trim();
-  if(t&&CODIGO.test(t)) datos.marca.tag = t;
+  if(t) datos.marca.tag = t;
   if($('#p-grupo')){
     flujo.grupo = $('#p-grupo').value.trim();
     flujo.esencial = $('#p-esencial').checked;
@@ -1224,7 +1162,6 @@ function guardarProducto(){
   const e = t => {const x=$('#p-error');x.textContent=t;x.hidden=false};
   const r = revisarLink(b.link);
   if(r.error) return e(r.error);
-  if(r.pideCodigo) return e('Escribe tu código de afiliada: termina en -20, como tunombre-20. Sin él no hay comisión.');
   if(!b.nombre) return e('Falta el nombre. Este link no lo trae: escríbelo.');
   if(!b.pid&&yaEsta(b.link)) return e('Ese producto ya está en tu página.');
   const pid = b.pid||id();
@@ -1382,35 +1319,17 @@ function pasoVideo(){
     <p class="error" id="n-error" hidden></p>
     <button class="primario fijo-abajo" data-acc="publicarVideo">Guardar</button>`);
 }
-/* El rechazo se explica al pegar o al guardar. Mientras escribe no molesta */
-const pareceLink = x => /^(https?:\/\/|www\.|amazon\.|amzn\.|a\.co\/)/i.test(x)&&/\.[a-z]{2,}(\/|$)/i.test(x);
 function mirarLinkVideo(avisa,texto){
   const c = $('#v-link'), v = (texto??c.value).trim();
-  if(!v){
-    $('#n-error').hidden = true;
-    return;
-  }
-  const trozos = v.split(/\s+/).filter(pareceLink);
-  const links = trozos.filter(x=>!revisarLink(x).error), malos = trozos.filter(x=>revisarLink(x).error);
-  const explica = () => {
-    if(!malos.length||!avisa) return;
-    const x = $('#n-error');
-    x.textContent = `${malos.length===1?'Un link no entró':`${malos.length} links no entraron`}. ${revisarLink(malos[0]).error}`;
-    x.hidden = false;
-  };
+  if(!v) return;
+  const links = v.split(/\s+/).filter(x=>!revisarLink(x).error);
   if(!links.length){
-    if(malos.length) return explica();
-    if(avisa){
-      const x = $('#n-error');
-      x.textContent = revisarLink(v).error||'Pega un link de Amazon.';
-      x.hidden = false;
-    }
+    if(avisa){const x=$('#n-error');x.textContent='Ese link no es de Amazon.';x.hidden=false}
     return;
   }
   leerVideo();
   flujo.nuevos.push(...links.map(link=>({link,nombre:nombreDelLink(link)})));
   pasoVideo();
-  explica();
   $('#v-link').focus();
 }
 function publicarVideo(){
@@ -1418,9 +1337,8 @@ function publicarVideo(){
   const b = flujo;
   const e = t => {const x=$('#n-error');x.textContent=t;x.hidden=false};
   if(!b.titulo) return e('Escribe el nombre del video.');
-  if(!b.sel.length&&!b.nuevos.length) return e(revisarLink($('#v-link')?.value||'').error||'Pega al menos un link.');
+  if(!b.sel.length&&!b.nuevos.length) return e('Pega al menos un link.');
   if(b.nuevos.some(n=>!n.nombre)) return e('A un link le falta el nombre: escríbelo.');
-  if(b.nuevos.some(n=>revisarLink(n.link).pideCodigo)) return e('Falta tu código de afiliada. Escríbelo tocando tu logo.');
   recordar();
   const ids = [...b.sel];
   b.nuevos.forEach(n=>{
@@ -1447,7 +1365,7 @@ const ACCIONES = {
     const c = el.closest('.seccion').querySelector('.v-carrusel');
     c.scrollBy({left:+a*(c.firstElementChild.offsetWidth+24),behavior:quieto()?'auto':'smooth'});
   },
-  simulado(){avisar(CONFIG.demo?'Demo: aquí se abriría Amazon.':'Este producto todavía no tiene link.')},
+  simulado(){avisar('Demo: aquí se abriría Amazon.')},
   entrarEdicion(){editando=true;transicion(pintar);window.scrollTo({top:0,behavior:'instant'})},
   salirEdicion(){editando=false;transicion(pintar);window.scrollTo({top:0,behavior:'instant'})},
   compartir(){
@@ -1479,10 +1397,11 @@ const ACCIONES = {
   async agregarLink(){
     let t = '';
     try{t = (await navigator.clipboard.readText()).trim()}catch(e){}
-    const r = t?revisarLink(t):{error:true};
-    if(!r.error&&!r.aviso&&nombreDelLink(t)&&!CONFIG.apiFotos) return guardarRapido(t);
+    const link = t.split(/\s+/).find(x=>x.startsWith('https://'))||'';
+    const r = link?revisarLink(link):{error:true};
+    if(!r.error&&!r.aviso&&nombreDelLink(link)&&!CONFIG.apiFotos) return guardarRapido(link);
     abrirProducto(null,'');
-    if(/https?:|amazon\.|amzn\.|a\.co/i.test(t)){$('#p-link').value = sacarLink(t);mirarLink()}
+    if(!r.error){$('#p-link').value = link;mirarLink()}
   },
   agregarACategoria(a){abrirProducto(null,`c:${a}`)},
   editarProducto(a){abrirProducto(a)},
@@ -1527,23 +1446,7 @@ const ACCIONES = {
     refrescar();
     avisarDeshacer('Botón quitado');
   },
-  guardarLogo(){
-    const m = datos.marca, t = $('#l-tag').value.trim();
-    if(t&&!CODIGO.test(t)){
-      const x = $('#l-error');
-      x.textContent = 'Revisa tu código: termina en -20, como tunombre-20.';
-      x.hidden = false;
-      return;
-    }
-    m.nombre = $('#l-nombre').value.trim()||m.nombre;
-    m.letra = ($('#l-letra').value.trim()||m.letra).slice(0,2);
-    if(t&&t!==m.tag){
-      m.tag = t;
-      Object.values(datos.productos).forEach(p=>{const a = asinDe(p.link||'');if(a) p.link = linkPropio(a)});
-    }
-    cerrarHoja();
-    refrescar();
-  },
+  guardarLogo(){const m=datos.marca;m.nombre=$('#l-nombre').value.trim()||m.nombre;m.letra=($('#l-letra').value.trim()||m.letra).slice(0,2);const t=$('#l-tag').value.trim();if(t&&t!==m.tag){m.tag=t;Object.values(datos.productos).forEach(p=>{try{const u=new URL(p.link);if(TIENDA.test(u.hostname)){u.searchParams.set('tag',t);p.link=u.href}}catch(e){}})}cerrarHoja();refrescar()},
   quitarLogo(){datos.marca.logo='';cerrarHoja();refrescar()},
   quitarEntrada(){datos.marca.logoEntrada='';refrescar();EDITABLES.logo()},
   quitarFoto(i){leerProducto();flujo.fotos.splice(+i,1);hoja(formProducto());mirarLink()},
@@ -1576,10 +1479,7 @@ const ACCIONES = {
   },
   deshacer(){
     if(!respaldo) return;
-    const tag = datos.marca.tag;
     datos = JSON.parse(respaldo);
-    datos.marca.tag = tag;
-    sanear(datos);
     respaldo = null;
     $('#nota').classList.remove('visible');
     refrescar();
@@ -1612,7 +1512,7 @@ const ACCIONES = {
   }
 };
 const EDITABLES = {
-  logo(){const m=datos.marca;flujo={tipo:'logo'};hoja(`<h3>Tu logo</h3><div class="campo"><span class="rotulo">Icono</span>${campoFoto(m.logo,'data-foto="logo"','Elegir imagen')}</div><div class="campo"><span class="rotulo">Logo de la entrada</span>${campoFoto(m.logoEntrada,'data-foto="entrada"','Elegir imagen')}</div><div class="campo"><label for="l-letra">O una letra</label><input id="l-letra" maxlength="2" value="${esc(m.letra)}"></div><div class="campo"><label for="l-nombre">Tu nombre</label><input id="l-nombre" maxlength="40" value="${esc(m.nombre)}"></div><div class="campo"><label for="l-tag">Tu código de afiliada</label><input id="l-tag" autocomplete="off" autocapitalize="off" placeholder="tunombre-20" value="${esc(m.tag||'')}"></div><p class="error" id="l-error" hidden></p><button class="primario" data-acc="guardarLogo">Guardar</button>${matchMedia('(display-mode:standalone)').matches?'':'<button class="secundario ancho" data-acc="instalarApp">Instalar como app</button>'}<button class="secundario ancho" data-acc="cerrarAparato">Cerrar en este aparato</button>${m.logoEntrada?'<button class="secundario ancho peligro" data-acc="quitarEntrada">Quitar logo de la entrada</button>':''}${m.logo?'<button class="secundario ancho peligro" data-acc="quitarLogo">Quitar icono</button>':''}`)},
+  logo(){const m=datos.marca;flujo={tipo:'logo'};hoja(`<h3>Tu logo</h3><div class="campo"><span class="rotulo">Icono</span>${campoFoto(m.logo,'data-foto="logo"','Elegir imagen')}</div><div class="campo"><span class="rotulo">Logo de la entrada</span>${campoFoto(m.logoEntrada,'data-foto="entrada"','Elegir imagen')}</div><div class="campo"><label for="l-letra">O una letra</label><input id="l-letra" maxlength="2" value="${esc(m.letra)}"></div><div class="campo"><label for="l-nombre">Tu nombre</label><input id="l-nombre" maxlength="40" value="${esc(m.nombre)}"></div><div class="campo"><label for="l-tag">Tu código de afiliada</label><input id="l-tag" autocomplete="off" autocapitalize="off" placeholder="tunombre-20" value="${esc(m.tag||'')}"></div><button class="primario" data-acc="guardarLogo">Guardar</button>${matchMedia('(display-mode:standalone)').matches?'':'<button class="secundario ancho" data-acc="instalarApp">Instalar como app</button>'}<button class="secundario ancho" data-acc="cerrarAparato">Cerrar en este aparato</button>${m.logoEntrada?'<button class="secundario ancho peligro" data-acc="quitarEntrada">Quitar logo de la entrada</button>':''}${m.logo?'<button class="secundario ancho peligro" data-acc="quitarLogo">Quitar icono</button>':''}`)},
   foto(){flujo={tipo:'fotoElla'};hoja(`<h3>Tu foto</h3>${campoFoto(datos.marca.foto,'data-foto="ella"')}${datos.marca.foto?'<button class="secundario ancho peligro" data-acc="quitarFotoElla">Quitar foto</button>':''}`)},
   gancho(){hoja(`<h3>Tus frases</h3><div class="campo"><label for="g-barra">Barra de arriba</label><input id="g-barra" maxlength="60" value="${esc(datos.marca.barra||'')}"></div><div class="campo"><label for="g-texto">Debajo de tu nombre</label><textarea id="g-texto" maxlength="60">${esc(datos.marca.gancho)}</textarea></div><button class="primario" data-acc="guardarGancho">Guardar</button>`)},
   boton(){const b=datos.marca.boton;hoja(`<h3>Botón de arriba</h3><div class="campo"><label for="b-link">Link de tu app de reservas</label><input id="b-link" type="url" inputmode="url" autocapitalize="off" autocorrect="off" placeholder="https://" value="${esc(b.link)}"></div><div class="campo"><label for="b-texto">Texto del botón</label><input id="b-texto" maxlength="16" value="${esc(b.texto)}"></div><p class="error" id="b-error" hidden></p><button class="primario" data-acc="guardarBoton">${b.activo?'Guardar':'Poner botón'}</button>${b.activo?'<button class="secundario ancho peligro" data-acc="quitarBoton">Quitar botón</button>':''}`)}
@@ -1656,7 +1556,7 @@ document.addEventListener('input',e=>{
   if(e.target.id==='p-link') mirarLink();
   if(e.target.id==='s-titulo'){datos.secciones.find(x=>x.id===flujo.sid).titulo=e.target.value;guardar();pintar()}
   if(e.target.id==='kit-busca'){kitTexto = e.target.value;return filtrarKit()}
-  if(e.target.id==='v-link') return mirarLinkVideo(e.inputType==='insertFromPaste');
+  if(e.target.id==='v-link') return mirarLinkVideo(false);
   if(e.target.id==='c-frase'){datos.categorias[flujo.cid].frase=e.target.value;guardar();pintar()}
   if(e.target.id==='c-titulo'){datos.categorias[flujo.cid].titulo=e.target.value;guardar();pintar()}
 });
@@ -1735,6 +1635,18 @@ function soltarFoto(e){
   saltarClic = true;
   setTimeout(()=>{saltarClic = false},350);
 }
+let relojLogo = null;
+const soltarLogo = () => {clearTimeout(relojLogo);relojLogo = null};
+document.addEventListener('pointerdown',e=>{
+  if(editando||!e.target.closest?.('.barra .logo')) return;
+  relojLogo = setTimeout(()=>{
+    saltarClic = true;
+    setTimeout(()=>{saltarClic = false},500);
+    soyDuena()?ACCIONES.entrarEdicion():pedirClave();
+  },900);
+});
+window.addEventListener('pointerup',soltarLogo);
+window.addEventListener('pointercancel',soltarLogo);
 window.addEventListener('pointerup',soltarFoto);
 window.addEventListener('pointercancel',soltarFoto);
 document.addEventListener('click',e=>{
@@ -1751,14 +1663,12 @@ document.addEventListener('click',e=>{
   const t = f.closest('.marco').querySelector('.tira');
   irAFoto(t,(+t.dataset.i||0)+ +f.dataset.mover);
 },true);
-/* Solo el link privado abre el editor. Cualquier otra dirección no hace nada */
-async function abrirEditor(){
-  const h = location.hash.slice(1);
-  if(!CONFIG.entrar||!h.startsWith('e-')||await resumen(h)!==CONFIG.entrar) return;
+/* Con #editar también se entra, pidiendo la clave si hace falta */
+function abrirEditor(){
+  if(location.hash!=='#editar') return;
+  if(soyDuena()) editando = true;
+  else setTimeout(pedirClave,0);
   try{history.replaceState(null,'',location.pathname+location.search)}catch(e){location.hash = ''}
-  editando = soyDuena();
-  pintar();
-  if(!editando) pedirClave();
 }
 /* Al volver de una categoría, la página queda donde estaba */
 let posInicio = 0;
@@ -1804,7 +1714,7 @@ if($('link[rel=manifest]')) navigator.serviceWorker?.register('sw.js').catch(()=
 
 abrirEditor();
 pintar();
-entrada().catch(()=>{$('.intro')?.remove();$('#antes')?.remove()});
+entrada().catch(()=>$('.intro')?.remove());
 refrescarAmazon();
 </script>
 </body>

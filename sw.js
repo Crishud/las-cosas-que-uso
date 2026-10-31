@@ -1,5 +1,5 @@
 /* Guarda la página para abrirla sin señal. Primero pide lo nuevo; las fotos de Amazon nunca se guardan */
-const CACHE = 'todos-cosas-v1';
+const CACHE = 'mis-cosas-v1';
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./','app.webmanifest'])));
   self.skipWaiting();

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-Vn/+5GaYOaJG8Fq8iukW1+6hR+0MntOBasQlapKZ4Ys='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-nUVdBRAn0CrvvI0PxVDsayKwqgCOjnTojp/ZNDTE7wU='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" media="(prefers-color-scheme:light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme:dark)" content="#0b0b0b">
@@ -303,9 +303,9 @@ h1,h2,h3,p{margin:0}
 .elige input:checked+span{background:var(--tinta);color:var(--oro);transform:scale(1.08)}
 .elige input:focus-visible+span{outline:2px solid var(--verde);outline-offset:2px}
 .kit-carro[hidden]{display:none}
-.kit-carro{position:fixed;left:var(--margen);right:var(--margen);bottom:calc(var(--e3) + env(safe-area-inset-bottom));z-index:15;display:flex;align-items:center;justify-content:center;gap:var(--e2);min-height:56px;padding:0 var(--e5);border-radius:28px;background:var(--tinta);color:#fff;font-size:17px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.kit-carro{position:fixed;left:50%;translate:-50% 0;bottom:calc(var(--e3) + env(safe-area-inset-bottom));z-index:15;display:flex;align-items:center;gap:var(--e2);width:max-content;min-height:46px;padding:0 var(--e4);border-radius:23px;background:var(--tinta);color:#fff;font-size:15px;font-weight:500;box-shadow:0 6px 18px rgba(0,0,0,.16)}
 .kit-carro:active{transform:scale(.98)}
-.kit-carro svg{width:22px;height:22px;color:var(--oro)}
+.kit-carro svg{width:18px;height:18px;color:var(--oro)}
 .kit-carro small{font-size:12px;font-weight:400;color:var(--oro)}
 body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom))}
 @media (min-width:1024px){
@@ -316,7 +316,7 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
   .kit-rejilla{grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--e5) var(--e4)}
   .kit-grupo.grande .kit-rejilla{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--e5)}
   .kit-pieza b{font-size:15px}
-  .kit-carro{left:calc(50% - 170px);right:auto;bottom:var(--e5);width:340px}
+  .kit-carro{bottom:var(--e5)}
 }
 
 /* Final de la página: la mariposa vuela y aparece el logo */
@@ -328,10 +328,6 @@ body.en-kit .pagina{padding-bottom:calc(var(--e10) + env(safe-area-inset-bottom)
 .cierre-legal p+p{margin-top:var(--e1)}
 .cierre-mariposa{position:absolute;left:0;top:0;width:var(--mar);transform-origin:0 0;pointer-events:none}
 .polvo{position:absolute;left:0;top:0;width:4px;height:4px;border-radius:50%;background:var(--oro);opacity:0;pointer-events:none}
-
-/* Pegada arriba mientras la página está al inicio, para que Safari pinte la franja del reloj de este verde */
-.demo.pegada{position:fixed;top:0;left:0;right:0;z-index:30}
-.demo.pegada+.pagina{margin-top:var(--alto-demo)}
 
 /* Antes de la entrada: del blanco del navegador al negro, sin corte. Sin JavaScript se quita sola */
 .antes{position:fixed;inset:0;z-index:200;background:#fff;animation:antes-sale .3s 7s forwards}
@@ -631,7 +627,7 @@ function piezaKit(k){
 /* Si no eligió nada, el botón manda todo lo que puede entrar al carrito y dice cuántos son */
 function textoCarro(){
   const n = idsCarro().length||(CONFIG.demo?kitSel.size:0), total = datos.categorias[ruta().a]?.productos.length||0;
-  return `${ICONO.carro}<span>${n&&n!==total?`${n} al carrito`:'Todo al carrito'}</span><small>Amazon · #ad</small>`;
+  return `${ICONO.carro}<span>${n&&n!==total?`${n} al carrito`:'Al carrito'}</span><small>#ad</small>`;
 }
 function kitHtml(cid){
   const c = datos.categorias[cid], ids = c.productos.filter(k=>datos.productos[k]);
@@ -731,7 +727,7 @@ function dock(){
   return `<div class="dock"><button data-acc="agregarLink">Agregar link</button><button data-acc="hojaVideo">Actualizar video</button></div>`;
 }
 /* La franja del reloj del teléfono: negra en la entrada, verde junto a la barra y transparente al bajar.
-   Safari 26 ignora theme-color: toma el color del fondo del documento o de lo que esté fijo arriba */
+   Safari 26 ignora theme-color y toma el color del fondo del documento. Nada fijo arriba: Safari lo dejaría pegado al bajar */
 let enEntrada = false;
 function colorArriba(c){
   document.querySelectorAll('meta[name=theme-color]').forEach(m=>{m.content = c});
@@ -740,10 +736,6 @@ function colorArriba(c){
 function mirarArriba(){
   if(enEntrada) return;
   const barra = $('.demo');
-  if(barra){
-    document.documentElement.style.setProperty('--alto-demo',`${barra.getBoundingClientRect().height}px`);
-    barra.classList.toggle('pegada',scrollY<=2);
-  }
   colorArriba($('.modo-editar')||barra&&scrollY<barra.offsetHeight?'#183d32':'#ffffff');
 }
 window.addEventListener('scroll',mirarArriba,{passive:true});

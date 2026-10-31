@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-viXMiUOjEn6RzK8jL0lMWyCAgG6lv9M6j/NJ2jC0/58='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-Vn/+5GaYOaJG8Fq8iukW1+6hR+0MntOBasQlapKZ4Ys='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.media-amazon.com https://*.ssl-images-amazon.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" media="(prefers-color-scheme:light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme:dark)" content="#0b0b0b">
@@ -419,6 +419,12 @@ const CLAVE = 'todos-cosas-v1';
 const FOTOS = {};
 const foto = n => `fotos/${n}.webp`;
 const AVISO = 'As an Amazon Associate I earn from qualifying purchases.';
+const TIENDA = /^(www\.|smile\.|m\.)?amazon\.com$/i;
+const OTRO_PAIS = /^(www\.|m\.)?amazon\.(ca|com\.mx|com\.br|co\.uk|es|de|fr|it|co\.jp|com\.au|in|nl|pl|se|sg|ae|sa|eg|com\.be|com\.tr)$/i;
+const CORTO = /^(amzn\.to|amzn\.eu|amzn\.asia|a\.co)$/i;
+/* Códigos de la tienda de EE. UU.: si su cuenta es de otro país hay que cambiar esto y TIENDA */
+const CODIGO = /^[a-z0-9][a-z0-9-]*-20$/i;
+const asinDe = v => (String(v).match(/\/(?:dp|gp\/product|gp\/aw\/d)\/([A-Z0-9]{10})(?=[/?#]|$)/i)||[])[1]?.toUpperCase()||'';
 /* Link normal de Amazon: el teléfono lo abre en la app si la tiene. Nada de trucos, para que la compra cuente */
 const DESTINO = matchMedia('(pointer:coarse)').matches?'_self':'_blank';
 const ICONO = {
@@ -461,10 +467,25 @@ function ejemplo(){
     ]
   };
 }
+/* Lo guardado pasa por la misma regla: un link solo vale con producto de amazon.com y su código */
+function sanear(d){
+  const t = CODIGO.test(d.marca.tag||'')?d.marca.tag:'';
+  d.marca.tag = t;
+  Object.values(d.productos).forEach(p=>{
+    if(!p.link) return;
+    let a = '';
+    try{
+      const u = new URL(p.link);
+      if(u.protocol==='https:'&&TIENDA.test(u.hostname)) a = asinDe(u.pathname);
+    }catch(e){}
+    p.link = a&&t?`https://www.amazon.com/dp/${a}?tag=${t}`:'';
+  });
+  return d;
+}
 function cargar(){
   try{
     const d = JSON.parse(localStorage.getItem(CLAVE),(k,v)=>typeof v==='string'&&v.startsWith('foto:')?foto(v.slice(5)):v);
-    if(d&&d.marca) return d;
+    if(d&&d.marca) return sanear(d);
   }catch(e){}
   return ejemplo();
 }
@@ -547,7 +568,7 @@ function caja(html,obj){
 function piezaProducto(pid){
   const p = datos.productos[pid];
   if(!p) return '';
-  const dentro = `${marcoProducto(p)}${esNuevo(p)?'<span class="marca">Nuevo</span>':''}<b>${esc(p.nombre)}</b><span class="sub">#ad</span>`;
+  const dentro = `${marcoProducto(p)}${editando&&!p.link&&!p.ejemplo?'<span class="marca">Falta link</span>':esNuevo(p)?'<span class="marca">Nuevo</span>':''}<b>${esc(p.nombre)}</b><span class="sub">#ad</span>`;
   if(p.ejemplo||!p.link) return caja(`<div class="pieza" role="button" tabindex="0" data-pieza data-acc="simulado" data-prod="${esc(pid)}">${dentro}</div>`,`p:${pid}`);
   return caja(`<a class="pieza" draggable="false" data-pieza data-prod="${esc(pid)}" href="${esc(p.link)}" target="${DESTINO}" rel="sponsored nofollow noopener">${dentro}</a>`,`p:${pid}`);
 }
@@ -726,6 +747,12 @@ function mirarArriba(){
   colorArriba($('.modo-editar')||barra&&scrollY<barra.offsetHeight?'#183d32':'#ffffff');
 }
 window.addEventListener('scroll',mirarArriba,{passive:true});
+/* Si otra pestaña cambió algo, esta no lo pisa al guardar */
+window.addEventListener('storage',e=>{
+  if(e.key!==CLAVE) return;
+  datos = cargar();
+  pintar();
+});
 function pintar(){
   cortarEntrada?.();
   const r = ruta();
@@ -1040,26 +1067,30 @@ async function refrescarAmazon(){
 }
 
 /* Links: ella pega y lo demás sale solo */
-const TIENDA = /^(www\.|smile\.|m\.)?amazon\.com$/i;
-const CORTO = /^(amzn\.to|amzn\.eu|amzn\.asia|a\.co)$/i;
-const CODIGO = /^[a-z0-9][a-z0-9-]*-2\d$/i;
+/* Acepta el link como llegue: sin https, con http o dentro de un texto */
+function sacarLink(v){
+  const t = (String(v).match(/(?<![\w.-])(?:https?:\/\/|www\.|amazon\.com\/|amzn\.|a\.co\/)\S+/i)?.[0]||String(v).trim()).replace(/[.,;)]+$/,'');
+  return /^https?:\/\//i.test(t)?t.replace(/^http:/i,'https:'):/^[a-z]+:/i.test(t)?t:`https://${t}`;
+}
 function revisarLink(v){
-  v = v.trim();
-  if(!v) return {error:'Pega el link de Amazon.'};
+  if(!String(v).trim()) return {error:'Pega el link de Amazon.'};
   let u;
-  try{u = new URL(v)}catch(e){u = null}
-  if(u&&CORTO.test(u.hostname)) return {error:'Un link corto no deja comprobar que la comisión sea tuya. Abre el producto y copia su link completo.'};
-  if(!u||u.protocol!=='https:'||!TIENDA.test(u.hostname)) return {error:'Ese link no es de amazon.com.'};
-  if(!asinDe(u.pathname)) return {error:'Ese link no es de un producto. Abre el producto y copia su link.'};
+  try{u = new URL(sacarLink(v))}catch(e){u = null}
+  if(u&&CORTO.test(u.hostname)) return {error:'Ese link corto no deja saber qué producto es. Abre el producto en el navegador, en amazon.com, y copia la dirección.'};
+  if(u&&OTRO_PAIS.test(u.hostname)) return {error:'Ese link es de Amazon de otro país. Abre el producto en amazon.com y copia la dirección.'};
+  if(!u||u.protocol!=='https:'||!TIENDA.test(u.hostname)) return {error:'Ese link no es de Amazon.'};
+  if(!asinDe(u.pathname)) return {error:'Ese link no es de un producto. Abre el producto y copia su dirección.'};
   if(!datos.marca.tag) return {aviso:'Escribe tu código de afiliada una vez y lo pongo solo en todos tus links.',pideCodigo:true};
   return {};
 }
-const asinDe = v => (String(v).match(/\/(?:dp|gp\/product|gp\/aw\/d)\/([A-Z0-9]{10})(?=[/?#]|$)/i)||[])[1]?.toUpperCase()||'';
 /* Todo link sale igual: amazon.com, el producto y su código. Lo demás se descarta, también el código de otra persona.
    El código nunca se aprende de un link: lo escribe ella */
 const linkPropio = asin => `https://www.amazon.com/dp/${asin}?tag=${encodeURIComponent(datos.marca.tag)}`;
 function limpiarLink(v){
-  try{return linkPropio(asinDe(new URL(v.trim()).pathname))}catch(e){return ''}
+  try{
+    const a = asinDe(new URL(sacarLink(v)).pathname);
+    return a&&datos.marca.tag?linkPropio(a):'';
+  }catch(e){return ''}
 }
 const yaEsta = link => {
   const a = asinDe(link);
@@ -1089,7 +1120,7 @@ function guardarRapido(link){
 }
 function nombreDelLink(v){
   try{
-    const p = new URL(v.trim()).pathname.split('/').filter(Boolean);
+    const p = new URL(sacarLink(v)).pathname.split('/').filter(Boolean);
     const i = p.findIndex(x=>x==='dp'||x==='gp');
     const t = i>0?p[i-1]:'';
     if(!t) return '';
@@ -1172,8 +1203,8 @@ function mirarLink(){
   if(!c) return;
   const r = c.value.trim()?revisarLink(c.value):{};
   const a = $('#p-aviso');
-  a.hidden = !r.aviso;
-  a.textContent = r.aviso||'';
+  a.hidden = !(r.error||r.aviso);
+  a.textContent = r.error||r.aviso||'';
   const pc = $('#p-codigo');
   if(pc) pc.hidden = !r.pideCodigo;
   const n = $('#p-nombre');
@@ -1362,14 +1393,19 @@ function pasoVideo(){
 function mirarLinkVideo(avisa,texto){
   const c = $('#v-link'), v = (texto??c.value).trim();
   if(!v) return;
-  const links = v.split(/\s+/).filter(x=>!revisarLink(x).error);
-  if(!links.length){
-    if(avisa){const x=$('#n-error');x.textContent=revisarLink(v.split(/\s+/)[0]).error;x.hidden=false}
-    return;
-  }
+  const trozos = v.split(/\s+/).filter(x=>/[./]/.test(x));
+  const links = trozos.filter(x=>!revisarLink(x).error), malos = trozos.filter(x=>revisarLink(x).error);
+  const explica = () => {
+    if(!malos.length) return;
+    const x = $('#n-error');
+    x.textContent = `${malos.length===1?'Un link no entró':`${malos.length} links no entraron`}. ${revisarLink(malos[0]).error}`;
+    x.hidden = false;
+  };
+  if(!links.length) return avisa?explica():undefined;
   leerVideo();
   flujo.nuevos.push(...links.map(link=>({link,nombre:nombreDelLink(link)})));
   pasoVideo();
+  explica();
   $('#v-link').focus();
 }
 function publicarVideo(){
@@ -1406,7 +1442,7 @@ const ACCIONES = {
     const c = el.closest('.seccion').querySelector('.v-carrusel');
     c.scrollBy({left:+a*(c.firstElementChild.offsetWidth+24),behavior:quieto()?'auto':'smooth'});
   },
-  simulado(){avisar('Demo: aquí se abriría Amazon.')},
+  simulado(){avisar(CONFIG.demo?'Demo: aquí se abriría Amazon.':'Este producto todavía no tiene link.')},
   entrarEdicion(){editando=true;transicion(pintar);window.scrollTo({top:0,behavior:'instant'})},
   salirEdicion(){editando=false;transicion(pintar);window.scrollTo({top:0,behavior:'instant'})},
   compartir(){
@@ -1438,11 +1474,10 @@ const ACCIONES = {
   async agregarLink(){
     let t = '';
     try{t = (await navigator.clipboard.readText()).trim()}catch(e){}
-    const link = t.split(/\s+/).find(x=>x.startsWith('https://'))||'';
-    const r = link?revisarLink(link):{error:true};
-    if(!r.error&&!r.aviso&&nombreDelLink(link)&&!CONFIG.apiFotos) return guardarRapido(link);
+    const r = t?revisarLink(t):{error:true};
+    if(!r.error&&!r.aviso&&nombreDelLink(t)&&!CONFIG.apiFotos) return guardarRapido(t);
     abrirProducto(null,'');
-    if(!r.error){$('#p-link').value = link;mirarLink()}
+    if(/https?:|amazon\.|amzn\.|a\.co/i.test(t)){$('#p-link').value = sacarLink(t);mirarLink()}
   },
   agregarACategoria(a){abrirProducto(null,`c:${a}`)},
   editarProducto(a){abrirProducto(a)},
@@ -1536,7 +1571,10 @@ const ACCIONES = {
   },
   deshacer(){
     if(!respaldo) return;
+    const tag = datos.marca.tag;
     datos = JSON.parse(respaldo);
+    datos.marca.tag = tag;
+    sanear(datos);
     respaldo = null;
     $('#nota').classList.remove('visible');
     refrescar();
